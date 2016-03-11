@@ -31,10 +31,10 @@ below.
     * A TextField (where the user enters a letter as a guess)
       * Optional: A smart way for the user to guess letters (since a TextField
               for letter entry is bad UX)
-    * A UILabel that displays the "_"s corresponding to each word in the
+    * A UILabel that displays the "-"s corresponding to each word in the
     provided puzzle string
     * A "Correct" Button (for when the user submits a Correct guess)
-      * Each tap of this button will remove an "_" from the puzzle label
+      * Each tap of this button will remove an "-" from the puzzle label
     * An "Incorrect" Button (for when the user submits an Incorrect guess)
       * Each tap of this button will display the letter in the TextField as an
       Incorrect Guess on the same screen
