@@ -11,40 +11,44 @@ import UIKit
 class GameViewController: UIViewController {
 
     @IBOutlet weak var incorrectGuessesLabel: UILabel!
-    
     @IBOutlet weak var hangmanPhrase: UILabel!
-   
-    
     @IBOutlet weak var GuessTextField: UITextField!
-    
     @IBOutlet weak var hangmanImageView: UIImageView!
-    
-    var phraseLengthChange = 0
-    
-    var phrase_Array = [Character]()
-    
+    var phrase = ""
+    var phraseArray = [Character]()
     var stateToImg = [Int:UIImage]()
-    
     var numIncorrectGuesses = 0
+    var phraseSetForCorrectness = Set<Character>()
+    var canGuess: Bool = true
+    let hangmanPhrases = HangmanPhrases()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
-        let hangmanPhrases = HangmanPhrases()
-        var phrase = hangmanPhrases.getRandomPhrase()
+        phrase = hangmanPhrases.getRandomPhrase()
+        setupViewForHangmanGame(phrase)
+    }
+    
+    func setupViewForHangmanGame(phrase: String){
+        incorrectGuessesLabel.text = "Incorrect Guesses: "
+        hangmanPhrase.text = ""
+        GuessTextField.text = ""
+        phraseArray = [Character]()
+        stateToImg = [Int:UIImage]()
+        numIncorrectGuesses = 0
+        phraseSetForCorrectness = Set<Character>()
         print(phrase)
         hangmanPhrase.text = ""
         for character in phrase.characters {
             if character == " " {
                 hangmanPhrase.text?.append(" " as Character)
-                phrase_Array.append(" ")
+                phraseArray.append(" " as Character)
             } else {
-                phrase_Array.append("-")
                 hangmanPhrase.text?.append("-" as Character)
+                phraseArray.append("-" as Character)
+                phraseSetForCorrectness.insert(character)
             }
         }
-        phraseLengthChange = phrase.characters.count
         stateToImg[0] = UIImage(named: "hangman1.gif")
         stateToImg[1] = UIImage(named: "hangman2.gif")
         stateToImg[2] = UIImage(named: "hangman3.gif")
@@ -52,7 +56,6 @@ class GameViewController: UIViewController {
         stateToImg[4] = UIImage(named: "hangman5.gif")
         stateToImg[5] = UIImage(named: "hangman6.gif")
         stateToImg[6] = UIImage(named: "hangman7.gif")
-        
         hangmanImageView.image = stateToImg[0]
     }
 
@@ -61,36 +64,93 @@ class GameViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func guessCorrect(sender: UIButton) {
-        var phraseAfterGuess = ""
-        phraseLengthChange -= 1
-        if phraseLengthChange >= 0 {
-            //TODO: FIx this issue with how to change characters
-            for var i = 0; i < phraseLengthChange; i++ {
-                if phrase_Array[i] == " " {
-                    phraseAfterGuess.append(" " as Character)
+    @IBAction func userClickedGuess(sender:UIButton) {
+        if canGuess {
+            if GuessTextField.text?.characters.count > 1 {
+                let alertController = UIAlertController(
+                    title: "Too many Chars",
+                    message: "Your guess contains more than one character",
+                    preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                    (action) in
+                    print("OK Pressed")
+                }
+                alertController.addAction(okAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            } else if let guess = GuessTextField.text where !guess.isEmpty {
+                let guessChar = guess.uppercaseString.characters.first!
+                if phraseSetForCorrectness.contains(guessChar) {
+                    guessCorrect(guessChar)
                 } else {
-                    phraseAfterGuess.append("-" as Character)
+                    guessIncorrect(guessChar)
                 }
             }
-            print(phraseAfterGuess)
-            
-            hangmanPhrase.text = phraseAfterGuess
+        }
+        
+        GuessTextField.text = ""
+    }
+    
+    func guessCorrect(guessChar: Character) {
+        var phraseAfterGuess = ""
+        
+        let phraseStartIndex = phrase.startIndex
+        var phraseIndex = phrase.startIndex
+        for var i = 0; i < phrase.characters.count; i++ {
+            phraseIndex = phraseStartIndex.advancedBy(i)
+            if phrase[phraseIndex] == guessChar {
+                phraseArray[i] = guessChar
+            }
+        }
+        
+        for var i = 0; i < phraseArray.count; i++ {
+            phraseAfterGuess.append(phraseArray[i])
+        }
+        
+        hangmanPhrase.text = phraseAfterGuess
+        phraseSetForCorrectness.remove(guessChar)
+        if phraseSetForCorrectness.count == 0 {
+            let alertController = UIAlertController(
+                title: "Your Winner",
+                message: "Great Job! Unfortunately the prize is in another castle. Try again?",
+                preferredStyle: .Alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                (action) in
+                print("OK Pressed")
+            }
+            alertController.addAction(okAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            canGuess = false
         }
     }
     
-    @IBAction func guessIncorrect(sender: UIButton) {
-        if GuessTextField.text?.characters.count > 1 {
-            print("Bad")
-        } else if let guess = GuessTextField.text where !guess.isEmpty {
-            let guessChar = guess.characters.first
-            incorrectGuessesLabel.text?.append(guessChar! as Character)
-            incorrectGuessesLabel.text?.append(" " as Character)
-            GuessTextField.text = ""
-            numIncorrectGuesses += 1
-            hangmanImageView.image = stateToImg[numIncorrectGuesses]
+    func guessIncorrect(guessChar: Character) {
+        incorrectGuessesLabel.text?.append(guessChar as Character)
+        incorrectGuessesLabel.text?.append(" " as Character)
+        numIncorrectGuesses += 1
+        hangmanImageView.image = stateToImg[numIncorrectGuesses]
+        if numIncorrectGuesses == 6 {
+            let alertController = UIAlertController(
+                title: "You Lose",
+                message: "You Lost. Try again so you can get the prize.",
+                preferredStyle: .Alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                (action) in
+                print("OK Pressed")
+            }
+            alertController.addAction(okAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            canGuess = false
         }
     }
+    
+    @IBAction func startOver(sender: UIBarButtonItem) {
+        canGuess = true
+        phrase = hangmanPhrases.getRandomPhrase()
+        setupViewForHangmanGame(phrase)
+    }
+    
+    
+    
 
     /*
     // MARK: - Navigation
