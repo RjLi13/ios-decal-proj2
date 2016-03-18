@@ -15,16 +15,19 @@ class GameViewController: UIViewController {
     @IBOutlet weak var GuessTextField: UITextField!
     @IBOutlet weak var hangmanImageView: UIImageView!
     var phrase = ""
-    var phraseArray = [Character]()
-    var stateToImg = [Int:UIImage]()
-    var numIncorrectGuesses = 0
-    var phraseSetForCorrectness = Set<Character>()
+    var phraseArray: [Character]!
+    var stateToImg: [Int:UIImage]!
+    var numIncorrectGuesses: Int = 0
+    var phraseSetForCorrectness: Set<Character>!
     var canGuess: Bool = true
-    let hangmanPhrases = HangmanPhrases()
+    var hangmanPhrases: HangmanPhrases!
+    var correctGuessesList: Set<Character>!
+    var incorrectGuessesList: Set<Character>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        hangmanPhrases = HangmanPhrases()
         phrase = hangmanPhrases.getRandomPhrase()
         setupViewForHangmanGame(phrase)
     }
@@ -57,6 +60,8 @@ class GameViewController: UIViewController {
         stateToImg[5] = UIImage(named: "hangman6.gif")
         stateToImg[6] = UIImage(named: "hangman7.gif")
         hangmanImageView.image = stateToImg[0]
+        incorrectGuessesList = Set<Character>()
+        correctGuessesList = Set<Character>()
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,10 +84,14 @@ class GameViewController: UIViewController {
                 self.presentViewController(alertController, animated: true, completion: nil)
             } else if let guess = GuessTextField.text where !guess.isEmpty {
                 let guessChar = guess.uppercaseString.characters.first!
-                if phraseSetForCorrectness.contains(guessChar) {
-                    guessCorrect(guessChar)
-                } else {
-                    guessIncorrect(guessChar)
+                if !correctGuessesList.contains(guessChar) && !incorrectGuessesList.contains(guessChar) {
+                    if phraseSetForCorrectness.contains(guessChar) {
+                        correctGuessesList.insert(guessChar)
+                        guessCorrect(guessChar)
+                    } else {
+                        incorrectGuessesList.insert(guessChar)
+                        guessIncorrect(guessChar)
+                    }
                 }
             }
         }

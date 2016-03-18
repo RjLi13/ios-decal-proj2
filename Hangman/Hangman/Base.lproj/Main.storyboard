@@ -63,47 +63,46 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hangman1.gif" translatesAutoresizingMaskIntoConstraints="NO" id="AAS-ai-nkA">
-                                <rect key="frame" x="250" y="108" width="100" height="100"/>
+                                <rect key="frame" x="250" y="116" width="100" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="69W-fg-AMj"/>
-                                    <constraint firstAttribute="width" constant="100" id="QvE-26-nvb"/>
+                                    <constraint firstAttribute="width" constant="100" id="jHe-Gd-WaJ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25Q-Kl-7md">
-                                <rect key="frame" x="279" y="223" width="42" height="21"/>
+                                <rect key="frame" x="279" y="243" width="42" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xkq-ZA-LX0">
+                                <rect key="frame" x="226" y="292" width="147" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="GuessField"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="147" id="o5e-Xk-eqb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="325-Xv-THj">
-                                <rect key="frame" x="278" y="321" width="43" height="30"/>
+                                <rect key="frame" x="279" y="355" width="43" height="30"/>
                                 <state key="normal" title="Guess"/>
                                 <connections>
                                     <action selector="userClickedGuess:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xle-MW-EhB"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xkq-ZA-LX0">
-                                <rect key="frame" x="226" y="268" width="147" height="30"/>
-                                <accessibility key="accessibilityConfiguration" identifier="GuessField"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="147" id="ned-GK-2wn"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Xkq-ZA-LX0" firstAttribute="top" secondItem="25Q-Kl-7md" secondAttribute="bottom" constant="24" id="6z9-sX-i0z"/>
-                            <constraint firstItem="325-Xv-THj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8of-Fe-eib"/>
-                            <constraint firstItem="25Q-Kl-7md" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CJQ-ZJ-WCZ"/>
-                            <constraint firstItem="Xkq-ZA-LX0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DLH-gd-biy"/>
+                            <constraint firstItem="325-Xv-THj" firstAttribute="top" secondItem="Xkq-ZA-LX0" secondAttribute="bottom" constant="33" id="1HI-Ev-AhS"/>
+                            <constraint firstItem="AAS-ai-nkA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="32X-tQ-9KL"/>
+                            <constraint firstItem="25Q-Kl-7md" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BiR-sZ-zRp"/>
+                            <constraint firstItem="AAS-ai-nkA" firstAttribute="top" secondItem="xD6-ob-Fj5" secondAttribute="bottom" constant="15.5" id="FAS-Xa-iVT"/>
+                            <constraint firstItem="Xkq-ZA-LX0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FTB-bu-nR2"/>
+                            <constraint firstItem="25Q-Kl-7md" firstAttribute="top" secondItem="AAS-ai-nkA" secondAttribute="bottom" constant="27" id="d8x-Em-rdJ"/>
                             <constraint firstItem="xD6-ob-Fj5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="eyv-ah-TbC"/>
                             <constraint firstItem="xD6-ob-Fj5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="geq-qW-KzF"/>
-                            <constraint firstItem="AAS-ai-nkA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gfz-6M-ui0"/>
-                            <constraint firstItem="325-Xv-THj" firstAttribute="top" secondItem="Xkq-ZA-LX0" secondAttribute="bottom" constant="23" id="ojx-8P-Vw4"/>
-                            <constraint firstItem="AAS-ai-nkA" firstAttribute="top" secondItem="xD6-ob-Fj5" secondAttribute="bottom" constant="7.5" id="t82-lt-GuC"/>
-                            <constraint firstItem="25Q-Kl-7md" firstAttribute="top" secondItem="AAS-ai-nkA" secondAttribute="bottom" constant="15" id="u8G-CZ-HB9"/>
+                            <constraint firstItem="325-Xv-THj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pBX-WG-2RE"/>
+                            <constraint firstItem="Xkq-ZA-LX0" firstAttribute="top" secondItem="25Q-Kl-7md" secondAttribute="bottom" constant="28" id="qm5-O6-07c"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="t0t-fe-VG5">
